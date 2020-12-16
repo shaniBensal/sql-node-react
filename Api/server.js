@@ -27,13 +27,13 @@ app.use(function (req, res, next) {
 
 require("./routes/todos.js")(app);
 
-app.get('/', function (req, res) {
-    // connect to your database
-    sql.connect(config, function (err) {
+// app.get('/', function (req, res) {
+//     // connect to your database
+//     sql.connect(config, function (err) {
     
-        if (err) console.log(err);
-    });
-});
+//         if (err) console.log(err);
+//     });
+// });
 
-var port = 8080;
+var port = 3000;
 app.listen(port);

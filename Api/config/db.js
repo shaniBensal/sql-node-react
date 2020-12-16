@@ -2,7 +2,7 @@ const config = {
   user: "sa",
   password: "sbs170390",
   server: "localhost",
-  database: "Todos",
+  database: "Contacts",
   port: 55104,
   pool: {
     max: 10,
@@ -10,7 +10,7 @@ const config = {
     idleTimeoutMillis: 30000,
   },
   options: {
-    trustedבonnection: true,
+    trustedconnection: true,
     enableArithAbort: true,
     keepAlive: true,
     encrypt: true,

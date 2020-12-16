@@ -1,34 +1,54 @@
 module.exports = (app) => {
+  var router = require("express").Router();
+  app.use("/api", router);
 
-var router = require("express").Router();
-app.use("/api", router);
-var controller = require("../controllers/todos");
+  const baseUrl = "/contacts";
+  var config = require("../config/db");
+  const sql = require("mssql");
 
-const baseUrl = '/todos';
-
-router.use((request,response,next)=>{
-  console.log('middleware');
-  next();
-})
-
-router.route(baseUrl).get((request, response) => {
-  controller.getTodos().then((result) => {
-    console.log(result)
-    response.json(result);
+  router.route(baseUrl).post((req, response) => {
+    sql.connect(config, function (err) {
+      const bodyReq = { ...req.body };
+      if (err) console.log(err);
+      var request = new sql.Request();
+      return request.query(
+        "INSERT INTO ContactsTable (id, firstName, lastName) VALUES(" +
+          bodyReq.id +
+          ", '" +
+          bodyReq.firstName +
+          "','" +
+          bodyReq.lastName +
+          "')",
+        function (err, res) {
+          return response.json(res);
+        }
+      );
+    });
   });
-});
-
-router.route(baseUrl + "/:todoId").get((request, response) => {
-  controller.getTodo(request.params.todoId).then((result) => {
-    response.json(result[0]);
+  router.route(baseUrl + "/:id").get((request, response) => {
+    const id = request.params.id;
+    sql.connect(config, function (err) {
+      if (err) console.log(err);
+      var request = new sql.Request();
+      return request.query("SELECT * FROM ContactsTable WHERE id = " + id, function (err, recordsets) {
+        if (err) {
+          console.log(err);
+        }
+        return response.json(recordsets);
+      });
+    });
   });
-});
 
-router.route(baseUrl).post((request, response) => {
-  let todo = { ...request.body };
-
-  controller.addTodo(todo).then((result) => {
-    response.status(201).json(result);
+  router.route(baseUrl).get((request, res) => {
+    sql.connect(config, function (err) {
+      if (err) console.log(err);
+      var request = new sql.Request();
+      request.query("SELECT * from ContactsTable", function (err, recordsets) {
+        if (err) {
+          console.log(err);
+        }
+        res.send(recordsets);
+      });
+    });
   });
-});
-}
+};

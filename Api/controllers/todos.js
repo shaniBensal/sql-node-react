@@ -1,18 +1,8 @@
 var config = require("../config/db");
 const sql = require("mssql");
-var connect = new sql.connect(config);
 
-function getTodos() {
-  // create Request object
-  let request = new sql.Request(connect);
-
-  // query to the database and get the records
-  request.query("SELECT * from TodosTable", function (err, recordset) {
-    if (err) console.log(err);
-    console.log(recordset);
-    // send records as a response
-    res.send(recordset);
-  });
+function getTodos(req, res) {
+  
 }
 
 async function getTodo(todoId) {
@@ -21,7 +11,7 @@ async function getTodo(todoId) {
     let todo = await pool
       .request()
       .input("input_parameter", sql.Int, todoId)
-      .query("SELECT * from TodosTable where todoId = @input_parameter");
+      .query("SELECT * from ContactsTable where todoId = @input_parameter");
     return todo.recordsets;
   } catch (error) {
     console.log(error);
