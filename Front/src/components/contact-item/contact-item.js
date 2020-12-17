@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Button } from "react-bootstrap";
 import ContactEdit from "../contact-edit/contact-edit";
 
-export default function TodoItem({ item, onUpdateItem, onRemoveContact }) {
+export default function ContactItem({ item, onUpdateItem, onRemoveContact }) {
   const [isEdit, setEdit] = useState(false);
 
   const toggleEdit = (updatedItem) => {
@@ -24,7 +24,7 @@ export default function TodoItem({ item, onUpdateItem, onRemoveContact }) {
           <td>{item.firstName}</td>
           <td>{item.lastName}</td>
           <td>
-            <Button onClick={(event) => toggleEdit(null)}>Edit</Button>
+            <Button className="mr-2" onClick={(event) => toggleEdit(null)}>Edit</Button>
             <Button onClick={ev => onRemoveContact(item.id)}>Delete</Button>
           </td>
         </tr>

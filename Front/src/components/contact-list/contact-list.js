@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import TodoItem from "../contact-item/contact-item";
+import ContactItem from "../contact-item/contact-item";
 import { Button } from "react-bootstrap";
 import ContactEdit from "../contact-edit/contact-edit";
 
-export default function TodoList({ contacts, onUpdateContactList, onSaveNewContact, onRemoveContact }) {
+export default function ContactList({ contacts, onUpdateContactList, onSaveNewContact, onRemoveContact }) {
   const [showNewInput, setNewContact] = useState(false);
 
   const saveNewContact = (contact) => {
@@ -13,7 +13,7 @@ export default function TodoList({ contacts, onUpdateContactList, onSaveNewConta
 
   const list = contacts.map((contact) => {
     return (
-      <TodoItem
+      <ContactItem
       key={contact.id}
         item={contact}
         onUpdateItem={(contact) => onUpdateContactList(contact)}
@@ -22,13 +22,13 @@ export default function TodoList({ contacts, onUpdateContactList, onSaveNewConta
     );
   });
   return (
-    <div>
+    <div className="d-flex flex-column align-items-center pt-3">
       <table>
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Actions</th>
+            <th className="pr-2"><p>First Name</p></th>
+            <th className="pr-2"><p>Last Name</p></th>
+            <th><p> Actions</p></th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@ export default function TodoList({ contacts, onUpdateContactList, onSaveNewConta
       {showNewInput ? <ContactEdit item={null} onUpdateItem={(ev)=> saveNewContact(ev)}/> : <tr></tr>}
         </tbody>
       </table>
-      <Button variant="info" onClick={()=>setNewContact(prev => !prev)}>{showNewInput? 'Cancel': 'Add New' }</Button>
+      <Button variant="info" className="mt-3" onClick={()=>setNewContact(prev => !prev)}>{showNewInput? 'Cancel': 'Add New' }</Button>
     </div>
   );
 }

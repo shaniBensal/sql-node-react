@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from "react";
-import TodoList from "./components/todo-list/todo-list";
-import defaultContacts from "./data/todoListDefault";
+import ContactList from "./components/contact-list/contact-list";
+import defaultContacts from "./data/contactListDefault";
 
 function App() {
   const [contacts, setContactList] = useState(defaultContacts);
@@ -56,9 +56,11 @@ function App() {
 
   return (
     <div className="App pt-3">
+      <div className="container align-content-center flex-column">
       <h2>Contacts App</h2>
-      <input value={filterBy} onChange={(ev) => updateFilter(ev)} />
-      <TodoList
+      <input type="text" placeholder="Search..." className="form-control my-3" value={filterBy} onChange={(ev) => updateFilter(ev)}/>
+      </div>
+      <ContactList
         contacts={filterdList.length ? filterdList : contacts}
         onRemoveContact={(ev) => removeContact(ev)}
         onSaveNewContact={(ev) => saveNewContact(ev)}

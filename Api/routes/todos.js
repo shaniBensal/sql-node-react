@@ -1,16 +1,16 @@
 module.exports = (app) => {
-  var router = require("express").Router();
+  const router = require("express").Router();
   app.use("/api", router);
 
   const baseUrl = "/contacts";
-  var config = require("../config/db");
+  const config = require("../config/db");
   const sql = require("mssql");
 
   router.route(baseUrl).post((req, response) => {
     sql.connect(config, function (err) {
       const bodyReq = { ...req.body };
       if (err) console.log(err);
-      var request = new sql.Request();
+      const request = new sql.Request();
       return request.query(
         "INSERT INTO ContactsTable (id, firstName, lastName) VALUES(" +
           bodyReq.id +
@@ -29,7 +29,7 @@ module.exports = (app) => {
     const id = request.params.id;
     sql.connect(config, function (err) {
       if (err) console.log(err);
-      var request = new sql.Request();
+      const request = new sql.Request();
       return request.query("SELECT * FROM ContactsTable WHERE id = " + id, function (err, recordsets) {
         if (err) {
           console.log(err);
@@ -42,7 +42,7 @@ module.exports = (app) => {
   router.route(baseUrl).get((request, res) => {
     sql.connect(config, function (err) {
       if (err) console.log(err);
-      var request = new sql.Request();
+      const request = new sql.Request();
       request.query("SELECT * from ContactsTable", function (err, recordsets) {
         if (err) {
           console.log(err);
