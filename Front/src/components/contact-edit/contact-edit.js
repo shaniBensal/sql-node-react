@@ -1,28 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
-const ContactEdit = ({ item }) => {
+const ContactEdit = ({ item, onUpdateItem }) => {
+  const [firstName, setFirstName] = useState(item ? item.firstName : "");
+  const [lastName, setLastName] = useState(item ? item.lastName : "");
+
+  const saveChanges = (onUpdateItem) => {
+    if(firstName && lastName !== ''){
+      let updatedContact = {
+        id: item ? item.id : "",
+        firstName,
+        lastName,
+      };
+      onUpdateItem(updatedContact);
+    } else return
+  };
+
   return (
-    <div>
-      {!!item ? (
-        <form>
-          <div className="mb-3">
-            <label className="form-label">First Name</label>
-            <input
-              value={item.firstName}
-              name="firstName"
-              type="text"
-              className="form-control"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Last Name</label>
-            <input type="text" className="form-control" name="lastName" />
-          </div>
-        </form>
-      ) : (
-        ""
-      )}
-    </div>
+    <React.Fragment>
+      <tr>
+        <td>
+          <input
+            value={firstName}
+            name="firstName"
+            type="text"
+            className="form-control"
+            required
+            onChange={(ev) => setFirstName(() => ev.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            className="form-control"
+            value={lastName}
+            onChange={(ev) => setLastName(() => ev.target.value)}
+            name="lastName"
+            required
+          />
+        </td>
+        <td>
+          <Button onClick={(event) => saveChanges(onUpdateItem)}>Save</Button>
+        </td>
+      </tr>
+    </React.Fragment>
   );
 };
 export default ContactEdit;

@@ -6,12 +6,12 @@ const defaultContacts = [
   },
   {
     id: 2,
-    firstName: "Shani",
+    firstName: "Or",
     lastName: "Omesi",
   },
   {
     id: 3,
-    firstName: "Shani",
+    firstName: "Nana",
     lastName: "Omesi",
   },
 ];
