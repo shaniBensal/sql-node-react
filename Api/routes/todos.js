@@ -6,9 +6,41 @@ module.exports = (app) => {
   const config = require("../config/db");
   const sql = require("mssql");
 
+  //update by Id
+  router.route(baseUrl + "/:id").post((req, response) => {
+    sql.connect(config, function (err) {
+      const bodyReq = req.body.contact;
+      if (err) console.log(err);
+      const request = new sql.Request();
+      return request.query(
+        'UPDATE ContactsTable SET id =' +bodyReq.id +',firstName = ' +bodyReq.firstName + ', lastName = ' +bodyReq.lastName + ' WHERE id = ' + bodyReq.id,
+        function (err, recordsets) {
+          return response.send(recordsets);
+        }
+      );
+    });
+  });
+
+  //delete by ID
+  router.route(baseUrl + "/:id").delete((request, response) => {
+    const id = request.params.id;
+    sql.connect(config, function (err) {
+      if (err) console.log(err);
+      const request = new sql.Request();
+      return request.query(
+        'DELETE FROM ContactsTable WHERE id ='+ id,
+        function (err, res) {
+          return response.send({status: 200});
+        }
+      );
+    });
+  });
+
+//create new
   router.route(baseUrl).post((req, response) => {
     sql.connect(config, function (err) {
-      const bodyReq = { ...req.body };
+      const bodyReq = req.body.contact;
+      console.log(bodyReq)
       if (err) console.log(err);
       const request = new sql.Request();
       return request.query(
@@ -19,12 +51,14 @@ module.exports = (app) => {
           "','" +
           bodyReq.lastName +
           "')",
-        function (err, res) {
-          return response.json(res);
+        function (err, recordsets) {
+          return response.json(recordsets);
         }
       );
     });
   });
+
+  //getBy id
   router.route(baseUrl + "/:id").get((request, response) => {
     const id = request.params.id;
     sql.connect(config, function (err) {
@@ -39,6 +73,7 @@ module.exports = (app) => {
     });
   });
 
+  // get all
   router.route(baseUrl).get((request, res) => {
     sql.connect(config, function (err) {
       if (err) console.log(err);
