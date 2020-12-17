@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
   });
   
 
-require("./routes/todos.js")(app);
+require("./routes/contacts.js")(app);
 
 var port = 3000;
 app.listen(port);
